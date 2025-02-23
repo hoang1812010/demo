@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TienHoang Configuration App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('bg.jpg');
+            background-size: cover;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Tạo các mảnh tuyết */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: fall linear infinite;
+            z-index: 1; /* Đảm bảo mảnh tuyết xuất hiện phía sau các thành phần */
+        }
+
+        /* Kích thước và vị trí của các mảnh tuyết */
+        .snowflake.small {
+            width: 5px;
+            height: 5px;
+            animation-duration: 5s;
+        }
+
+        .snowflake.medium {
+            width: 8px;
+            height: 8px;
+            animation-duration: 7s;
+        }
+
+        .snowflake.large {
+            width: 12px;
+            height: 12px;
+            animation-duration: 10s;
+        }
+
+        /* Hiệu ứng rơi của các mảnh tuyết */
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .menu-container {
+            background-color: rgba(51, 51, 51, 0.8); /* Đặt nền mờ */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 350px;
+            z-index: 2; /* Đảm bảo menu nằm trên các mảnh tuyết */
+        }
+
+        .menu-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ff4d4d;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            background-color: #444;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .menu-item:hover {
+            background-color: #555;
+        }
+
+        .menu-item input[type="checkbox"] {
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        .menu-item span {
+            font-size: 18px;
+        }
+
+        .menu-item button {
+            background-color: #ff4d4d;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-item button:hover {
+            background-color: #ff3333;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .submit-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <!-- Mảnh tuyết rơi sẽ tự động được thêm vào -->
+    <div class="menu-container">
+        <h2 class="menu-title">TienHoang Configuration App</h2>
+
+        <!-- Các chức năng Buff config -->
+        <div class="menu-item">
+            <span>AimLock v1</span>
+            <input type="checkbox" id="healthBuff">
+        </div>
+
+        <div class="menu-item">
+            <span>Optimize</span>
+            <input type="checkbox" id="speedBuff">
+        </div>
+
+        <div class="menu-item">
+            <span>Nhẹ Tâm</span>
+            <input type="checkbox" id="invisibleBuff">
+        </div>
+
+        <div class="menu-item">
+            <span>Buff DPI</span>
+            <button onclick="buffDPI()">...</button>
+        </div>
+
+        <button class="submit-button" onclick="submitConfig()">Buff Configuration</button>
+    </div>
+
+    <script>
+        function buffDPI() {
+            let dpi = prompt("Nhập DPI:");
+            if (dpi) {
+                alert("DPI được buff!!");
+            } else {
+                alert("Bạn chưa nhập DPI!");
+            }
+        }
+
+        function submitConfig() {
+            let healthBuff = document.getElementById('healthBuff').checked;
+            let speedBuff = document.getElementById('speedBuff').checked;
+            let invisibleBuff = document.getElementById('invisibleBuff').checked;
+
+            let config = {
+                healthBuff: healthBuff,
+                speedBuff: speedBuff,
+                invisibleBuff: invisibleBuff,
+            };
+
+            console.log("Cấu hình đã chọn:", config);
+            alert("Cấu hình đã được áp dụng!");
+        }
+
+        // Tạo mảnh tuyết ngẫu nhiên với kích thước và vị trí khác nhau
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+
+            // Ngẫu nhiên chọn kích thước (nhỏ, vừa, lớn)
+            const size = Math.random();
+            if (size < 0.33) {
+                snowflake.classList.add('small');
+            } else if (size < 0.66) {
+                snowflake.classList.add('medium');
+            } else {
+                snowflake.classList.add('large');
+            }
+
+            // Vị trí ngẫu nhiên cho mảnh tuyết
+            snowflake.style.left = Math.random() * window.innerWidth + 'px';
+            
+            document.body.appendChild(snowflake);
+
+            // Xóa mảnh tuyết sau khi rơi xuống
+            setTimeout(() => {
+                snowflake.remove();
+            }, 10000); // Sau 10 giây
+        }
+
+        // Tạo tuyết rơi liên tục
+        setInterval(createSnowflake, 200); // Tạo một mảnh tuyết mỗi 200ms
+    </script>
+</body>
+</html>
